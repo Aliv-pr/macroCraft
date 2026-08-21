@@ -86,7 +86,7 @@ const FOODS = [
     id: "avena", name: "Avena", emoji: "🌾",
     baseAmount: 100, unit: "g", baseLabel: "100 g",
     kcal: 389, protein: 17, carbs: 66, fat: 7,
-    min: 0, max: 300, step: 10,
+    min: 0, max: 600, step: 10,
   },
   {
     id: "leche", name: "Leche entera", emoji: "🥛",
@@ -104,13 +104,13 @@ const FOODS = [
     id: "pan", name: "Pan blanco", emoji: "🍞",
     baseAmount: 1, unit: "porción(es) de 2 rebanadas", baseLabel: "50 g / 2 rebanadas",
     kcal: 133, protein: 4, carbs: 25, fat: 1.6,
-    min: 0, max: 10, step: 1,
+    min: 0, max: 20, step: 1,
   },
   {
     id: "nutella", name: "Nutella", emoji: "🍫",
     baseAmount: 30, unit: "g", baseLabel: "30 g",
     kcal: 160, protein: 2, carbs: 18, fat: 9,
-    min: 0, max: 150, step: 5,
+    min: 0, max: 300, step: 5,
   },
   {
     id: "whey", name: "Proteína whey", emoji: "🥤",
