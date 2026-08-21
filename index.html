@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>NutriPlan — Planificador diario</title>
+  <meta name="description" content="Planificador personal de alimentación diaria: ajusta cantidades hasta alcanzar tus objetivos de calorías y macronutrientes." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>🍽 NutriPlan</h1>
+      <p class="topbar-subtitle">Ajusta las cantidades hasta cuadrar tus macros del día</p>
+    </div>
+  </header>
+
+  <!-- ==========================================================
+       PANEL RESUMEN — siempre visible, se actualiza en vivo
+       ========================================================== -->
+  <section class="summary-panel" id="summaryPanel" aria-live="polite">
+    <div class="summary-grid">
+
+      <div class="macro-card" data-macro="calories">
+        <div class="macro-card-top">
+          <span class="macro-name">Calorías</span>
+          <span class="macro-badge" id="summary-calories-badge">—</span>
+        </div>
+        <div class="macro-numbers">
+          <span class="macro-consumed" id="summary-calories-consumed">0</span>
+          <span class="macro-goal">/ <span id="summary-calories-goal">0 kcal</span></span>
+          <span class="macro-pct" id="summary-calories-pct">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-zone" id="summary-calories-zone"></div>
+          <div class="progress-fill" id="summary-calories-fill"></div>
+        </div>
+      </div>
+
+      <div class="macro-card" data-macro="protein">
+        <div class="macro-card-top">
+          <span class="macro-name">Proteína</span>
+          <span class="macro-badge" id="summary-protein-badge">—</span>
+        </div>
+        <div class="macro-numbers">
+          <span class="macro-consumed" id="summary-protein-consumed">0</span>
+          <span class="macro-goal">/ <span id="summary-protein-goal">0 g</span></span>
+          <span class="macro-pct" id="summary-protein-pct">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-zone" id="summary-protein-zone"></div>
+          <div class="progress-fill" id="summary-protein-fill"></div>
+        </div>
+      </div>
+
+      <div class="macro-card" data-macro="carbs">
+        <div class="macro-card-top">
+          <span class="macro-name">Carbohidratos</span>
+          <span class="macro-badge" id="summary-carbs-badge">—</span>
+        </div>
+        <div class="macro-numbers">
+          <span class="macro-consumed" id="summary-carbs-consumed">0</span>
+          <span class="macro-goal">/ <span id="summary-carbs-goal">0 g</span></span>
+          <span class="macro-pct" id="summary-carbs-pct">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-zone" id="summary-carbs-zone"></div>
+          <div class="progress-fill" id="summary-carbs-fill"></div>
+        </div>
+      </div>
+
+      <div class="macro-card" data-macro="fat">
+        <div class="macro-card-top">
+          <span class="macro-name">Grasas</span>
+          <span class="macro-badge" id="summary-fat-badge">—</span>
+        </div>
+        <div class="macro-numbers">
+          <span class="macro-consumed" id="summary-fat-consumed">0</span>
+          <span class="macro-goal">/ <span id="summary-fat-goal">0 g</span></span>
+          <span class="macro-pct" id="summary-fat-pct">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-zone" id="summary-fat-zone"></div>
+          <div class="progress-fill" id="summary-fat-fill"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="remaining-block" id="remainingBlock">
+      <h2>Te faltan:</h2>
+      <ul id="remainingList"></ul>
+    </div>
+
+    <div class="compliance-banner" id="complianceBanner">
+      <div class="banner-title">○ Todavía no cumples el objetivo</div>
+    </div>
+    <ul class="compliance-detail" id="complianceDetail"></ul>
+  </section>
+
+  <main>
+    <!-- ==========================================================
+         BARRA DE ACCIONES
+         ========================================================== -->
+    <section class="actions-bar">
+      <button type="button" class="btn primary big" id="generateMealBtn">🍽 GENERAR MI COMIDA</button>
+      <div class="actions-row">
+        <button type="button" class="btn" id="suggestBtn">✨ Sugerir ajuste</button>
+        <button type="button" class="btn" id="saveRecipeBtn">💾 Guardar receta</button>
+        <button type="button" class="btn" id="loadExampleBtn">⚡ Cargar ejemplo</button>
+        <button type="button" class="btn ghost" id="resetBtn">↺ Restablecer</button>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         TARJETAS DE ALIMENTOS
+         ========================================================== -->
+    <section class="foods-section">
+      <h2 class="section-title">Alimentos</h2>
+      <div class="foods-grid" id="foodsGrid"><!-- generado por script.js --></div>
+    </section>
+
+    <!-- ==========================================================
+         RECETAS GUARDADAS
+         ========================================================== -->
+    <section class="recipes-section">
+      <h2 class="section-title">Recetas guardadas</h2>
+      <div id="savedRecipesList"><!-- generado por script.js --></div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <p>NutriPlan · Uso 100% personal · Todo se calcula y guarda en tu navegador, sin servidores.</p>
+  </footer>
+
+  <!-- ==========================================================
+       MODAL — Mi comida de hoy
+       ========================================================== -->
+  <div class="modal" id="mealModal">
+    <div class="modal-backdrop" data-modal="mealModal"></div>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="mealModalTitle">
+      <div class="modal-header">
+        <h3 id="mealModalTitle">Mi comida de hoy</h3>
+        <button type="button" class="modal-close" data-close-modal="mealModal" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal-body" id="mealModalBody"><!-- generado por script.js --></div>
+      <div class="modal-footer">
+        <button type="button" class="btn primary" id="copyListBtn">📋 Copiar lista</button>
+        <button type="button" class="btn ghost" data-close-modal="mealModal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL — Sugerir ajuste
+       ========================================================== -->
+  <div class="modal" id="suggestionModal">
+    <div class="modal-backdrop" data-modal="suggestionModal"></div>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="suggestionModalTitle">
+      <div class="modal-header">
+        <h3 id="suggestionModalTitle">✨ Sugerir ajuste</h3>
+        <button type="button" class="modal-close" data-close-modal="suggestionModal" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal-body" id="suggestionModalBody"><!-- generado por script.js --></div>
+      <div class="modal-footer">
+        <button type="button" class="btn ghost" data-close-modal="suggestionModal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
