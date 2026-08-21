@@ -137,3 +137,4 @@ Todo el cálculo ocurre en tu navegador y lo único que se guarda
 propio dispositivo — nadie más lo ve, ni siquiera si publicas el
 repositorio como público, porque el código no contiene ningún dato
 personal tuyo.
+
